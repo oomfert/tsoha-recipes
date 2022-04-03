@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<form action="/add_recipe" method="POST">
+  <h3>Recipe name</h3>
+  <input type="text" name="name">
+  <input type="submit" value="Submit">
+  <br>
+  <h4>Ingredients</h4>
+  <p>Follow the format in the placeholder</p>
+  <textarea name="ingredients" rows="10" cols="50"
+    placeholder="potato: 500 g, onion: 1, anchovies: 100 g, cream: 2 dl, dill: a pinch"></textarea>
+  <br>
+  <h4>Instructions</h4>
+  <textarea name="steps" rows="10" cols="50"></textarea>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+
+{% endblock %}

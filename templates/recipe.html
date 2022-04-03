@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>{{ name }}</h2>
+
+<h3>Ingredients</h3>
+
+{% for key, value in ingredients.items() %}
+<ul>
+  <li>{{ key }} {{ value }}</li>
+</ul>
+
+{% endfor %}
+
+<p>{{ steps }}</p>
+
+{% endblock %}

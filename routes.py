@@ -2,11 +2,45 @@ from app import app
 from db import db
 from flask import render_template, redirect, request
 import account
+import recipes
 
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/recipe_list", methods=["GET"])
+def recipe_list():
+    if not account.account_id():
+        print("session not recognized when trying to view recipes")
+    else:
+        return render_template("recipe_list.html", account_recipes=recipes.get_account_recipes(account.account_id()))
+
+
+@app.route("/recipe/<int:recipe_id>")
+def open_recipe(recipe_id):
+    data = recipes.get_recipe_data(recipe_id)
+    return render_template("recipe.html", id=recipe_id, name=data[0], steps=data[1], ingredients=data[2])
+
+
+@app.route("/add_recipe", methods=["GET", "POST"])
+def add_recipe():
+    if request.method == "GET":
+        return render_template("add_recipe.html")
+    if request.method == "POST":
+        account.csrf_check()
+
+        name = request.form["name"]
+        ingredient_dict = {}
+        for ingredient in request.form["ingredients"].split(","):
+            ingredient_dict[ingredient.split(":")[0].strip()] = ingredient.split(":")[
+                1].strip()
+        steps = request.form["steps"]
+
+        recipes.add_recipe(name, ingredient_dict, steps, account.account_id())
+
+        return redirect("/")
 
 
 @app.route("/login", methods=["POST"])

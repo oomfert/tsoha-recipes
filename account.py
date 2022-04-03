@@ -37,3 +37,7 @@ def register(username, password):
 def csrf_check():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
+
+
+def account_id():
+    return session.get("account_id", 0)
