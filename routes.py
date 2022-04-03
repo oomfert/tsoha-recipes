@@ -32,17 +32,21 @@ def add_recipe():
         account.csrf_check()
 
         name = request.form["name"]
-        ingredient_dict = {}
-        for ingredient in request.form["ingredients"].split(","):
-            ingredient_dict[ingredient.split(":")[0].strip()] = ingredient.split(":")[
-                1].strip()
         steps = request.form["steps"]
+        ingredient_dict = {}
+        try:
+            for ingredient in request.form["ingredients"].split(","):
+                ingredient_dict[ingredient.split(":")[0].strip()] = ingredient.split(":")[
+                    1].strip()
+        except:
+            return render_template("index.html", error=True, errormsg="Adding recipe failed, make sure you used the correct ingredient format")
 
         recipes.add_recipe(name, ingredient_dict, steps, account.account_id())
 
         return redirect("/")
+        
 
-
+        
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
