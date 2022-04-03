@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if session.username %}
+<p>You are logged in as {{ session.username }}<br>
+  <a href="/logout">Log out</a>
+</p>
+
+{% else %}
+Log in or <a href="/register">register</a>
+<form action="/login" method="POST">
+  <input type="text" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="submit" value="Log in">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+{% endif %}
+
+<br>
+
+{% if error %}
+{{ errormsg }}
+{% endif %}
+
+{% endblock %}
