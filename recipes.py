@@ -1,8 +1,12 @@
 from db import db
 
 
-def get_account_recipes(account_id):
-    sql = "SELECT id, name FROM recipes WHERE (visible = TRUE AND creator_id = :account_id) ORDER BY name"
+def get_public_recipes(account_id):
+    sql = "SELECT id, name, creator_id FROM recipes WHERE (public = TRUE AND visible = TRUE) ORDER BY creator_id = :account_id DESC, name ASC"
+    return db.session.execute(sql, {"account_id": account_id}).fetchall()
+
+def get_private_recipes(account_id):
+    sql = "SELECT id, name FROM recipes WHERE (public = FALSE AND visible = TRUE AND creator_id = :account_id) ORDER BY name ASC"
     return db.session.execute(sql, {"account_id": account_id}).fetchall()
 
 
@@ -19,10 +23,10 @@ def get_recipe_data(recipe_id):
     return name, steps, ingredient_dict
 
 
-def add_recipe(name, ingredients: dict, steps, account_id):
-    sql_recipes = "INSERT INTO recipes (creator_id, name, steps, visible) VALUES (:creator_id, :name, :steps, TRUE) RETURNING id"
+def add_recipe(name, ingredients: dict, steps, account_id, public):
+    sql_recipes = "INSERT INTO recipes (creator_id, name, steps, public, visible) VALUES (:creator_id, :name, :steps, :public, TRUE) RETURNING id"
     recipe_id = db.session.execute(sql_recipes, {
-                                   "creator_id": account_id, "name": name, "steps": steps}).fetchone()[0]
+                                   "creator_id": account_id, "name": name, "steps": steps, "public": public}).fetchone()[0]
     sql_ingredients = "INSERT INTO ingredients (name, visible) VALUES (:ingredient, TRUE) RETURNING ID"
     sql_quantities = "INSERT INTO quantities (recipe_id, ingredient_id, amount) VALUES (:recipe_id, :ingredient_id, :amount)"
     for item in ingredients.items():

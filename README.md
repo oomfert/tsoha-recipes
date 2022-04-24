@@ -6,11 +6,12 @@ Sovelluksen ominaisuuksia:
 
 * Käyttäjä voi tehdä tunnuksen sekä kirjautua sisään ja ulos.
 * Käyttäjä voi luoda, tallentaa, ja lukea omia reseptejä, jotka koostuvat ainesosista ja ohjeista.
+* Käyttäjä voi julkaista reseptejä muiden käyttöön ja lukea muiden julkaisemia reseptej́ä
 
-Suunnitteilla olevat ominaisuudet:
+TO-DO:
 
-* Käyttäjä voi lisätä reseptin ainesosat vapaasti muokattavaan, henkilökohtaiseen ostoslistaan.
-* Käyttäjä voi pitää kirjaa ruoka-aineista, joita hänellä jo on, jolloin ostoslistaan lisätään vain ruoka-aineet, joita käyttäjällä ei ole.
-* Käyttäjä voi julkaista reseptejä muiden käyttöön.
+* Vapaasti muokattava ostoslista, johon voi lisätä reseptin ainesosat
+* Omien reseptien muokkaus
+* Ulkoasu
 
 Sovellusta voi kokeilla [Herokussa](https://tsoha-recipes-app.herokuapp.com/)

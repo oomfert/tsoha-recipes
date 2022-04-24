@@ -9,6 +9,7 @@ CREATE TABLE recipes (
     creator_id INTEGER REFERENCES accounts,
     name TEXT,
     steps TEXT,
+    public BOOLEAN,
     visible BOOLEAN
 );
 

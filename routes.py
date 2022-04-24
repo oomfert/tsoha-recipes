@@ -15,7 +15,7 @@ def recipe_list():
     if not account.account_id():
         print("session not recognized when trying to view recipes")
     else:
-        return render_template("recipe_list.html", account_recipes=recipes.get_account_recipes(account.account_id()))
+        return render_template("recipe_list.html", public_recipes=recipes.get_public_recipes(account.account_id()), private_recipes=recipes.get_private_recipes(account.account_id()))
 
 
 @app.route("/recipe/<int:recipe_id>")
@@ -33,15 +33,18 @@ def add_recipe():
 
         name = request.form["name"]
         steps = request.form["steps"]
+        public = "public" in request.form
         ingredient_dict = {}
         try:
             for ingredient in request.form["ingredients"].split(","):
                 ingredient_dict[ingredient.split(":")[0].strip()] = ingredient.split(":")[
                     1].strip()
         except:
-            return render_template("index.html", error=True, errormsg="Adding recipe failed, make sure you used the correct ingredient format")
+            return render_template("add_recipe.html", error=True, errormsg="Adding recipe failed, make sure you used the correct ingredient format")
 
-        recipes.add_recipe(name, ingredient_dict, steps, account.account_id())
+        recipes.add_recipe(name, ingredient_dict, steps, account.account_id(), public)
+
+
 
         return redirect("/")
         

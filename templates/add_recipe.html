@@ -1,6 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 
+{% if error %}
+{{ errormsg }}
+{% endif %}
+
 <form action="/add_recipe" method="POST">
   <h3>Recipe name</h3>
   <input type="text" name="name">
@@ -13,7 +17,10 @@
   <br>
   <h4>Instructions</h4>
   <textarea name="steps" rows="10" cols="50"></textarea>
+  <h5>Make recipe public?</h5>
+  <input type="checkbox" name="public">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
 </form>
 
 {% endblock %}
