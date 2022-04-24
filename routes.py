@@ -3,6 +3,7 @@ from db import db
 from flask import render_template, redirect, request
 import account
 import recipes
+import shopping
 
 
 @app.route("/")
@@ -42,14 +43,29 @@ def add_recipe():
         except:
             return render_template("add_recipe.html", error=True, errormsg="Adding recipe failed, make sure you used the correct ingredient format")
 
-        recipes.add_recipe(name, ingredient_dict, steps, account.account_id(), public)
-
-
+        recipes.add_recipe(name, ingredient_dict, steps,
+                           account.account_id(), public)
 
         return redirect("/")
-        
 
-        
+@app.route("/shopping_list", methods=["GET", "POST"])
+def shopping_list():
+    if request.method == "GET":
+        if not account.account_id():
+            print("session not recognized when trying to view shopping list")
+        else:
+            return render_template("shopping_list.html", list=shopping.get_shopping_list(account.account_id()))
+
+@app.route("/recipe/<int:recipe_id>/add_to_list")
+def recipe_to_list(recipe_id):
+    if not account.account_id():
+            print("session not recognized when trying to view shopping list")
+    else:
+        shopping.recipe_to_shopping_list(account.account_id(), recipe_id)
+        return redirect("/shopping_list")
+
+
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]

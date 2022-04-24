@@ -5,6 +5,7 @@ def get_public_recipes(account_id):
     sql = "SELECT id, name, creator_id FROM recipes WHERE (public = TRUE AND visible = TRUE) ORDER BY creator_id = :account_id DESC, name ASC"
     return db.session.execute(sql, {"account_id": account_id}).fetchall()
 
+
 def get_private_recipes(account_id):
     sql = "SELECT id, name FROM recipes WHERE (public = FALSE AND visible = TRUE AND creator_id = :account_id) ORDER BY name ASC"
     return db.session.execute(sql, {"account_id": account_id}).fetchall()

@@ -25,3 +25,9 @@ CREATE TABLE quantities (
     ingredient_id INTEGER REFERENCES ingredients,
     amount TEXT
 );
+
+CREATE TABLE shoppinglists (
+    id SERIAL PRIMARY KEY,
+    creator_id INTEGER REFERENCES accounts,
+    list TEXT
+);
