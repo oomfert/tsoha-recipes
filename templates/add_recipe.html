@@ -7,16 +7,16 @@
 
 <form action="/add_recipe" method="POST">
   <h3>Recipe name</h3>
-  <input type="text" name="name">
+  <input type="text" name="name" minlength="1" maxlength="100">
   <input type="submit" value="Submit">
   <br>
   <h4>Ingredients</h4>
   <p>Follow the format in the placeholder</p>
   <textarea name="ingredients" rows="10" cols="50"
-    placeholder="potato: 500 g, onion: 1, anchovies: 100 g, cream: 2 dl, dill: a pinch"></textarea>
+    placeholder="potato: 500 g, onion: 1, anchovies: 100 g, cream: 2 dl, dill: a pinch" maxlength="3000"></textarea>
   <br>
   <h4>Instructions</h4>
-  <textarea name="steps" rows="10" cols="50"></textarea>
+  <textarea name="steps" rows="10" cols="50" maxlength="3000"></textarea>
   <h5>Make recipe public?</h5>
   <input type="checkbox" name="public">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
