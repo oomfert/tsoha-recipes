@@ -19,7 +19,7 @@
   <textarea name="steps" rows="10" cols="50"></textarea>
   <h5>Make recipe public?</h5>
   <input type="checkbox" name="public">
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 </form>
 

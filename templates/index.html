@@ -16,7 +16,7 @@ Log in or <a href="/register">register</a>
   <input type="text" name="username" placeholder="Username">
   <input type="password" name="password" placeholder="Password">
   <input type="submit" value="Log in">
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 </form>
 {% endif %}
 

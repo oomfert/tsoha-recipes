@@ -14,7 +14,6 @@ def login(username, password):
         if check_password_hash(passhash, password):
             session["account_id"] = account[0]
             session["username"] = username
-            session["csrf_token"] = secrets.token_hex(16)
             return True
         else:
             return False
@@ -31,12 +30,6 @@ def register(username, password):
     db.session.execute(sql, {"username": username, "password": passhash})
     db.session.commit()
     return login(username, password)
-
-
-def csrf_check():
-    if session["csrf_token"] != request.form["csrf_token"]:
-        abort(403)
-
 
 def account_id():
     return session.get("account_id", 0)

@@ -30,8 +30,6 @@ def add_recipe():
     if request.method == "GET":
         return render_template("add_recipe.html")
     if request.method == "POST":
-        account.csrf_check()
-
         name = request.form["name"]
         steps = request.form["steps"]
         public = "public" in request.form
@@ -56,7 +54,7 @@ def shopping_list():
         else:
             return render_template("shopping_list.html", list=shopping.get_shopping_list(account.account_id()))
 
-@app.route("/recipe/<int:recipe_id>/add_to_list")
+@app.route("/recipe/<int:recipe_id>/add_to_list", methods=["POST"])
 def recipe_to_list(recipe_id):
     if not account.account_id():
             print("session not recognized when trying to view shopping list")
@@ -77,7 +75,7 @@ def login():
         return render_template("index.html", error=True, errormsg="Login failed")
 
 
-@app.route("/logout")
+@app.route("/logout", methods=["POST"])
 def logout():
     account.logout()
     return redirect("/")
