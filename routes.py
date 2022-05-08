@@ -14,21 +14,28 @@ def index():
 @app.route("/recipe_list", methods=["GET"])
 def recipe_list():
     if not account.account_id():
-        print("session not recognized when trying to view recipes")
+        return render_template("index.html", error=True, errormsg="Please log in before attempting to view recipes")
     else:
         return render_template("recipe_list.html", public_recipes=recipes.get_public_recipes(account.account_id()), private_recipes=recipes.get_private_recipes(account.account_id()))
 
 
-@app.route("/recipe/<int:recipe_id>")
-def open_recipe(recipe_id):
-    data = recipes.get_recipe_data(recipe_id)
-    return render_template("recipe.html", id=recipe_id, name=data[0], steps=data[1], ingredients=data[2])
+@app.route("/recipe/<int:recipe_id>", methods=["GET", "POST"])
+def recipe(recipe_id):
+    if request.method == "GET":
+        data = recipes.get_recipe_data(recipe_id)
+        return render_template("recipe.html", id=recipe_id, name=data[0], steps=data[1], ingredients=data[2])
+    if request.method == "POST":
+        shopping.recipe_to_shopping_list(account.account_id(), recipe_id)
+        return redirect("/shopping_list")
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
     if request.method == "GET":
-        return render_template("add_recipe.html")
+        if not account.account_id():
+            return render_template("index.html", error=True, errormsg="Please log in before attempting to add a recipe")
+        else:
+            return render_template("add_recipe.html")
     if request.method == "POST":
         name = request.form["name"]
         steps = request.form["steps"]
@@ -44,25 +51,15 @@ def add_recipe():
         recipes.add_recipe(name, ingredient_dict, steps,
                            account.account_id(), public)
 
-        return redirect("/")
+        return redirect("/recipe_list")
 
 @app.route("/shopping_list", methods=["GET", "POST"])
 def shopping_list():
     if request.method == "GET":
         if not account.account_id():
-            print("session not recognized when trying to view shopping list")
+            return render_template("index.html", error=True, errormsg="Please log in before attempting to view your shopping list")
         else:
             return render_template("shopping_list.html", list=shopping.get_shopping_list(account.account_id()))
-
-@app.route("/recipe/<int:recipe_id>/add_to_list", methods=["POST"])
-def recipe_to_list(recipe_id):
-    if not account.account_id():
-            print("session not recognized when trying to view shopping list")
-    else:
-        shopping.recipe_to_shopping_list(account.account_id(), recipe_id)
-        return redirect("/shopping_list")
-
-
 
 @app.route("/login", methods=["POST"])
 def login():

@@ -2,24 +2,41 @@
 {% block content %}
 
 {% if session.username %}
-<p>You are logged in as {{ session.username }}<br>
-  <a href="/logout">Log out</a>
-  <br>
-  <a href="/add_recipe">Add a recipe</a>
-  <a href="/recipe_list">List of recipes</a>
-  <a href="/shopping_list">Your shopping list</a>
-</p>
+<div class="d-flex align-items-center flex-column">
+  <div class="p-2">
+    You are logged in as <b>{{ session.username }}</b>
+  </div>
+  <div class="p-2">
+    <form action="/logout" method="POST">
+      <button type="submit" class="btn btn-primary">Log out</button>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    </form>
+  </div>
+</div>
 
 {% else %}
-Log in or <a href="/register">register</a>
-<form action="/login" method="POST">
-  <input type="text" name="username" placeholder="Username">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Log in">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-</form>
-{% endif %}
 
+
+<div class="d-flex flex-column align-items-center">
+  <div class="p-2">
+    <h4>Log in or <a href="/register">register</a></h4>
+  </div>
+  <form action="/login" method="POST">
+    <div class="form-group col-12">
+      <input class="form-control mb-2" type="text" name="username" placeholder="Username">
+    </div>
+    <div class="form-group col-12">
+        <input class="form-control mb-2" type="password" name="password" placeholder="Password">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-2">Log in</button>
+    </div>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+</div>
+
+
+{% endif %}
 
 
 <br>

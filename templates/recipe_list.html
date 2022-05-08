@@ -1,17 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h3>All public recipes</h3>
-<ul>
-  {% for recipe in public_recipes %}
-  <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
-  {% endfor %}
-</ul>
-<h3>Your private recipes</h3>
-<ul>
-  {% for recipe in private_recipes %}
-  <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
-  {% endfor %}
-</ul>
+
+<div class="d-flex flex-row justify-content-center">
+  <div class="mr-auto p-2">
+    <h4>Public recipes</h4>
+    <ul>
+      {% for recipe in public_recipes %}
+      <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="p-2">
+      <h4>Your unlisted recipes</h4>
+      <ul>
+        {% for recipe in private_recipes %}
+        <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
+        {% endfor %}
+      </ul>
+  </div>
+</div>
+
+
 
 {% endblock %}

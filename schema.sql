@@ -29,5 +29,7 @@ CREATE TABLE quantities (
 CREATE TABLE shoppinglists (
     id SERIAL PRIMARY KEY,
     creator_id INTEGER REFERENCES accounts,
-    list TEXT
+    ingredient TEXT,
+    amount TEXT,
+    visible BOOLEAN
 );

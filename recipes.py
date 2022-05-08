@@ -12,7 +12,7 @@ def get_private_recipes(account_id):
 
 
 def get_recipe_data(recipe_id):
-    sql = """SELECT recipes.name, recipes.steps, ingredients.name, quantities.amount 
+    sql = """SELECT recipes.name, recipes.steps, ingredients.name, quantities.amount
             FROM recipes, ingredients, quantities
             WHERE (recipes.visible = TRUE AND recipes.id = :recipe_id AND quantities.recipe_id = :recipe_id AND quantities.ingredient_id = ingredients.id)"""
     result = db.session.execute(sql, {"recipe_id": recipe_id}).fetchall()
@@ -36,3 +36,4 @@ def add_recipe(name, ingredients: dict, steps, account_id, public):
         db.session.execute(sql_quantities, {
                            "recipe_id": recipe_id, "ingredient_id": ingredient_id, "amount": item[1]})
     db.session.commit()
+    return recipe_id

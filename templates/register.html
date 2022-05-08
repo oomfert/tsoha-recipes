@@ -1,14 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2>Register</h2>
-<form action="/register" method="POST">
-  <input type="text" name="username" placeholder="Username" minlength="1" maxlength="25">
-  <input type="password" name="password" placeholder="Password" minlength="5" maxlength="100">
-  <input type="password" name="password_again" placeholder="Password again" minlength="5" maxlength="100">
-  <input type="submit" value="Create account">
-  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-</form>
+<div class="d-flex flex-column align-items-center">
+  <div class="p-2">
+    <h4>Register</h4>
+  </div>
+  <form action="/register" method="POST">
+    <div class="form-group col-12">
+      <input class="form-control mb-2" type="text" name="username" placeholder="Username" minlength="1" maxlength="25">
+    </div>
+    <div class="form-group col-12">
+        <input class="form-control mb-2" type="password" name="password" placeholder="Password" minlength="5" maxlength="100">
+    </div>
+    <div class="form-group col-12">
+      <input class="form-control mb-2" type="password" name="password_again" placeholder="Password again" minlength="5" maxlength="100">
+  </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-2">Create account</button>
+    </div>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  </form>
+</div>
+
 <br>
 {% if error %}
 {{ errormsg }}
