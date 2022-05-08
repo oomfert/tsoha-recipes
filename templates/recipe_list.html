@@ -12,12 +12,12 @@
     </ul>
   </div>
   <div class="p-2">
-      <h4>Your unlisted recipes</h4>
-      <ul>
-        {% for recipe in private_recipes %}
-        <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
-        {% endfor %}
-      </ul>
+    <h4>Your unlisted recipes</h4>
+    <ul>
+      {% for recipe in private_recipes %}
+      <li><a href="/recipe/{{ recipe.id }}">{{ recipe.name }}</a></li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 

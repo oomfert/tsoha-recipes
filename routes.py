@@ -53,6 +53,7 @@ def add_recipe():
 
         return redirect("/recipe_list")
 
+
 @app.route("/shopping_list", methods=["GET", "POST"])
 def shopping_list():
     if request.method == "GET":
@@ -60,6 +61,7 @@ def shopping_list():
             return render_template("index.html", error=True, errormsg="Please log in before attempting to view your shopping list")
         else:
             return render_template("shopping_list.html", list=shopping.get_shopping_list(account.account_id()))
+
 
 @app.route("/login", methods=["POST"])
 def login():
